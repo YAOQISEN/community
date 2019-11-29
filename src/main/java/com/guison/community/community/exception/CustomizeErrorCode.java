@@ -10,7 +10,8 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode{
     COMMENT_NOT_FOUND(2006,"回复地评论不存在了,要不要换个试试?" ),
     COMMENT_IS_EMPTY(2007,"输入内容不能为空" ),
     READ_NOTIFICATION_FAIL(2008,"亲,这不是由你读的通知信息" ),
-    NOTIFICATION_NOT_FOUND(2009,"通知貌似不见了");
+    NOTIFICATION_NOT_FOUND(2009,"通知貌似不见了"),
+    FILE_UPLOAD_FAIL(2010,"文件上传失败!");
 
     private Integer code;
     private String message;
