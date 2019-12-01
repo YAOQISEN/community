@@ -47,6 +47,6 @@
             </if>
         </where>
         order by gmt_create DESC
-        limit #{page},#{size}
+        limit #{offset},#{size}
     </select>
 </mapper>

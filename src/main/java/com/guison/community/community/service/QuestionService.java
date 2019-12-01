@@ -63,7 +63,7 @@ public class QuestionService {
         QuestionExample questionExample = new QuestionExample();
         questionExample.setOrderByClause("gmt_create desc");
 
-        questionQueryDTO.setPage(page);
+        questionQueryDTO.setOffset(offset);
         questionQueryDTO.setSize(size);
         List<Question> questions = questionExtMapper.selectBySearch(questionQueryDTO);
         List<QuestionDTO> questionDTOList = new ArrayList<>();

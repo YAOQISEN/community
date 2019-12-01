@@ -1,7 +1,7 @@
 package com.guison.community.community.mapper;
 
 
-import com.guison.community.community.dto.QuestionDTO;
+
 import com.guison.community.community.dto.QuestionQueryDTO;
 import com.guison.community.community.model.Question;
 
