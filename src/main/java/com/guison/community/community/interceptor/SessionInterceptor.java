@@ -1,8 +1,11 @@
 package com.guison.community.community.interceptor;
 
+import com.guison.community.community.enums.AdPosEnum;
 import com.guison.community.community.mapper.UserMapper;
+import com.guison.community.community.model.Ad;
 import com.guison.community.community.model.User;
 import com.guison.community.community.model.UserExample;
+import com.guison.community.community.service.AdService;
 import com.guison.community.community.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
@@ -13,18 +16,25 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service
 public class SessionInterceptor implements HandlerInterceptor {
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
     @Autowired
-    NotificationService notificationService;
+    private NotificationService notificationService;
+
+    @Autowired
+    private AdService adService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        for(AdPosEnum adPos : AdPosEnum.values()){
+            request.getServletContext().setAttribute(adPos.name(),adService.list(adPos.name()));
+        }
         Cookie[] cookies = request.getCookies();
         if(cookies != null && cookies.length != 0)
             for (Cookie cookie : cookies){
@@ -34,9 +44,10 @@ public class SessionInterceptor implements HandlerInterceptor {
                     userExample.createCriteria().andTokenEqualTo(token);
                     List<User> users = userMapper.selectByExample(userExample);
                     if(users.size() != 0){
-                        request.getSession().setAttribute("user",users.get(0));
+                        HttpSession session = request.getSession();
+                        session.setAttribute("user",users.get(0));
                         Long unreadCount = notificationService.unreadCount(users.get(0).getId());
-                        request.getSession().setAttribute("unreadCount",unreadCount);
+                        session.setAttribute("unreadCount",unreadCount);
                     }
                     break;
                 }
